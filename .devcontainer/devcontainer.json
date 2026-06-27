@@ -1,0 +1,33 @@
+{
+  "name": "My App with Antigravity",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode-remote.remote-containers"
+      ],
+      "settings": {
+        "git.autofetch": true
+      }
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.gemini/antigravity-cli,target=/home/vscode/.antigravity,type=bind,consistency=cached,Z",
+    "source=${localEnv:HOME}/.gemini/config,target=/home/vscode/.config/antigravity,type=bind,consistency=cached,Z"
+  ],
+  
+  // DIT IS DE ONTBREKENDE SCHAKEL:
+  "remoteEnv": {
+    "ANTIGRAVITY_CLI_DIR": "/home/vscode/.antigravity",
+    "ANTIGRAVITY_CONFIG_DIR": "/home/vscode/.config/antigravity",
+    "GEMINI_DIR": "/home/vscode/.antigravity" 
+  },
+  
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+  "updateRemoteUserUID": true,
+  
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
+}
