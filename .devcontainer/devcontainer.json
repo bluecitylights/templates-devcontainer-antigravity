@@ -3,6 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  
   "customizations": {
     "vscode": {
       "extensions": [
@@ -15,23 +16,26 @@
   },
   "mounts": [
     // Antigravity
-    "source=${localEnv:HOME}/.gemini/antigravity-cli,target=/home/vscode/.antigravity,type=bind,consistency=cached,Z",
-    "source=${localEnv:HOME}/.gemini/config,target=/home/vscode/.config/antigravity,type=bind,consistency=cached,Z",
-    
+    "source=${localEnv:HOME}/.gemini,target=/home/vscode/.gemini,type=bind,consistency=cached,Z",
     // GIT credentials
     "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached,Z"
   ],
-  
-  // DIT IS DE ONTBREKENDE SCHAKEL:
-  "remoteEnv": {
-    "ANTIGRAVITY_CLI_DIR": "/home/vscode/.antigravity",
-    "ANTIGRAVITY_CONFIG_DIR": "/home/vscode/.config/antigravity",
-    "GEMINI_DIR": "/home/vscode/.antigravity" 
+
+  "forwardPorts": [3000, 8080],
+
+  // Optioneel: geef ze een mooie naam in de 'Ports' tab van VS Code
+  "portsAttributes": {
+    "3000": {
+      "label": "Application Webserver",
+      "onAutoForward": "notify"
+    }
   },
+
   
   "remoteUser": "vscode",
   "containerUser": "vscode",
   "updateRemoteUserUID": true,
+  // "postStartCommand": "sudo chown -R vscode:vscode /home/vscode/.gemini",
   
   "postCreateCommand": "bash .devcontainer/post-create.sh"
 }
